@@ -1,8 +1,13 @@
 import * as express from "express";
 import { User } from "~/models/User";
 import { CreateObjectiveUseCase } from "~/useCases/Objective/CreateObjectiveUseCase";
+import { RetrieveObjectiveUseCase } from "~/useCases/Objective/RetrieveObjectiveUseCase";
+import { FetchUserObjectivesUseCase } from "~/useCases/Objective/FetchUserObjectivesUseCase";
 
 const createObjectiveUseCase = new CreateObjectiveUseCase();
+const fetchUserObjectivesUseCase = new FetchUserObjectivesUseCase();
+const retrieveObjectiveUseCase = new RetrieveObjectiveUseCase();
+
 export const setupObjectivesRoutes = (express: express.Express): void => {
   express.post(
     "/api/objectives",
@@ -16,6 +21,47 @@ export const setupObjectivesRoutes = (express: express.Express): void => {
           description: req.body.description,
         });
         return res.status(200).json({ object: createdObject });
+      } catch (error) {
+        return res
+          .status(503)
+          .send({ message: "予期せぬエラーが発生しました" });
+      }
+    },
+  );
+
+  express.get(
+    "/api/objectives/me",
+    async (req: express.Request & { user: User }, res: express.Response) => {
+      const { user } = req;
+
+      try {
+        const objective = await fetchUserObjectivesUseCase.execute({
+          userId: user._id,
+        });
+        return res.status(200).json({ objective });
+      } catch (error) {
+        return res
+          .status(503)
+          .send({ message: "予期せぬエラーが発生しました" });
+      }
+    },
+  );
+
+  express.get(
+    "/api/objectives/:id",
+    async (
+      req: express.Request<{ id: string }> & {
+        user: User;
+      },
+      res: express.Response,
+    ) => {
+      const { id } = req.params;
+
+      try {
+        const object = await retrieveObjectiveUseCase.execute({
+          _id: id,
+        });
+        return res.status(200).json({ object });
       } catch (error) {
         return res
           .status(503)
