@@ -30,13 +30,13 @@ describe("FetchUserObjectivesUseCase", () => {
   test("成功", async () => {
     const response = await useCase.execute({ userId: user._id });
 
-    expect(response).toEqual([
+    expect(response).toEqual(
       expect.objectContaining({
         name: "test",
         description: "test",
         createdUserId: user._id,
         status: "INPROGRESS",
       }),
-    ]);
+    );
   });
 });

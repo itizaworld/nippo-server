@@ -35,10 +35,10 @@ export const setupObjectivesRoutes = (express: express.Express): void => {
       const { user } = req;
 
       try {
-        const objectives = await fetchUserObjectivesUseCase.execute({
+        const objective = await fetchUserObjectivesUseCase.execute({
           userId: user._id,
         });
-        return res.status(200).json({ objectives });
+        return res.status(200).json({ objective });
       } catch (error) {
         return res
           .status(503)
