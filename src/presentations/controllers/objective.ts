@@ -3,6 +3,7 @@ import { User } from "~/models/User";
 import { CreateObjectiveUseCase } from "~/useCases/Objective/CreateObjectiveUseCase";
 import { RetrieveObjectiveUseCase } from "~/useCases/Objective/RetrieveObjectiveUseCase";
 import { FetchUserObjectivesUseCase } from "~/useCases/Objective/FetchUserObjectivesUseCase";
+import { loginRequired } from "~/middlewares/loginRequired";
 
 const createObjectiveUseCase = new CreateObjectiveUseCase();
 const fetchUserObjectivesUseCase = new FetchUserObjectivesUseCase();
@@ -11,6 +12,7 @@ const retrieveObjectiveUseCase = new RetrieveObjectiveUseCase();
 export const setupObjectivesRoutes = (express: express.Express): void => {
   express.post(
     "/api/objectives",
+    loginRequired,
     async (req: express.Request & { user: User }, res: express.Response) => {
       const { user } = req;
 
@@ -31,12 +33,13 @@ export const setupObjectivesRoutes = (express: express.Express): void => {
 
   express.get(
     "/api/objectives/me",
-    async (req: express.Request & { user: User }, res: express.Response) => {
+    loginRequired,
+    async (req: express.Request & { user?: User }, res: express.Response) => {
       const { user } = req;
 
       try {
         const objective = await fetchUserObjectivesUseCase.execute({
-          userId: user._id,
+          userId: user?._id,
         });
         return res.status(200).json({ objective });
       } catch (error) {
