@@ -50,18 +50,18 @@ export const setupObjectivesRoutes = (express: express.Express): void => {
   express.get(
     "/api/objectives/:id",
     async (
-      req: express.Request<object, object, object, { id: string }> & {
+      req: express.Request<{ id: string }> & {
         user: User;
       },
       res: express.Response,
     ) => {
-      const { id } = req.query;
+      const { id } = req.params;
 
       try {
-        const objects = await retrieveObjectiveUseCase.execute({
+        const object = await retrieveObjectiveUseCase.execute({
           _id: id,
         });
-        return res.status(200).json({ objects });
+        return res.status(200).json({ object });
       } catch (error) {
         return res
           .status(503)
