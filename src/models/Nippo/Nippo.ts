@@ -3,6 +3,7 @@ import { Schema, Types, model } from "mongoose";
 export interface Nippo {
   _id: string;
   body: string;
+  date: string; // YYYY-MM-DD 形式で保持する日付
   objectiveId: Types.ObjectId;
   createdUserId: Types.ObjectId;
   createdAt: Date;
@@ -12,6 +13,7 @@ export interface Nippo {
 const schema = new Schema<Nippo>(
   {
     body: { type: String, required: true },
+    date: { type: String, required: true },
     objectiveId: {
       type: Schema.Types.ObjectId,
       ref: "Objective",

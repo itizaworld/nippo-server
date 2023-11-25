@@ -5,12 +5,14 @@ export class CreateNippoUseCase {
   async execute({
     currentUser,
     body,
+    date,
     objectiveId,
-  }: Pick<Nippo, "body" | "objectiveId"> & {
+  }: Pick<Nippo, "body" | "date" | "objectiveId"> & {
     currentUser: User;
   }): Promise<Nippo> {
     return await NippoModel.create({
       body,
+      date,
       objectiveId,
       createdUserId: currentUser._id,
     });
