@@ -12,5 +12,5 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get("/api/objectives/me", loginRequired, getObjectiveMe);
   express.get("/api/objectives/:id", getObjective);
 
-  express.post("/api/nippos", loginRequired, postNippo);
+  express.post("/api/objectives/:id/nippos", loginRequired, postNippo);
 };

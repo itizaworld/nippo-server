@@ -1,15 +1,17 @@
 import * as express from "express";
 import { User } from "~/models/User";
 import { CreateNippoUseCase } from "~/useCases/Nippo/CreateNippoUseCase";
+import { Types } from "mongoose";
 
 const createNippoUseCase = new CreateNippoUseCase();
 
 export const postNippo = async (
-  req: express.Request & { user: User },
+  req: express.Request<{ id: string }> & { user: User },
   res: express.Response,
 ) => {
   const { user } = req;
-  const { body, objectiveId } = req.body;
+  const { id: objectiveId } = req.params;
+  const { body } = req.body;
 
   if (!body || !objectiveId) {
     return res.status(400).send({ message: "bodyとobjectiveIdは必須です" });
@@ -18,8 +20,8 @@ export const postNippo = async (
   try {
     const createdObject = await createNippoUseCase.execute({
       currentUser: user,
-      body: req.body.body,
-      objectiveId: req.body.objectiveId,
+      body,
+      objectiveId: new Types.ObjectId(objectiveId),
     });
     return res.status(200).json({ object: createdObject });
   } catch (error) {
