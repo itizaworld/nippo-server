@@ -11,7 +11,7 @@ export class UpsertNippoUseCase {
     currentUser: User;
   }): Promise<Nippo> {
     return await NippoModel.findOneAndUpdate(
-      { date, objectiveId },
+      { date, objectiveId, createdUserId: currentUser._id },
       {
         body,
         date,
