@@ -1,10 +1,10 @@
 import * as express from "express";
 import { User } from "~/models/User";
-import { CreateNippoUseCase } from "~/useCases/Nippo/CreateNippoUseCase";
+import { UpsertNippoUseCase } from "~/useCases/Nippo/UpsertNippoUseCase";
 import { Types } from "mongoose";
 import { logger } from "~/utils/logger";
 
-const createNippoUseCase = new CreateNippoUseCase();
+const upsertNippoUseCase = new UpsertNippoUseCase();
 
 export const postNippo = async (
   req: express.Request<
@@ -23,7 +23,7 @@ export const postNippo = async (
   }
 
   try {
-    const createdObject = await createNippoUseCase.execute({
+    const createdObject = await upsertNippoUseCase.execute({
       currentUser: user,
       body,
       date,

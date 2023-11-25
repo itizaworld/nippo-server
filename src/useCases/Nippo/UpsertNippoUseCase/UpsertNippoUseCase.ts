@@ -1,7 +1,7 @@
 import { Nippo, NippoModel } from "~/models/Nippo";
 import { User } from "~/models/User";
 
-export class CreateNippoUseCase {
+export class UpsertNippoUseCase {
   async execute({
     currentUser,
     body,
@@ -10,11 +10,15 @@ export class CreateNippoUseCase {
   }: Pick<Nippo, "body" | "date" | "objectiveId"> & {
     currentUser: User;
   }): Promise<Nippo> {
-    return await NippoModel.create({
-      body,
-      date,
-      objectiveId,
-      createdUserId: currentUser._id,
-    });
+    return await NippoModel.findOneAndUpdate(
+      { date, objectiveId },
+      {
+        body,
+        date,
+        objectiveId,
+        createdUserId: currentUser._id,
+      },
+      { new: true, upsert: true },
+    );
   }
 }
