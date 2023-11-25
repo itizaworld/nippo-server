@@ -18,12 +18,12 @@ export const postObjective = async (
   const { user } = req;
 
   try {
-    const createdObject = await createObjectiveUseCase.execute({
+    const createdObjective = await createObjectiveUseCase.execute({
       currentUser: user,
       name: req.body.name,
       description: req.body.description,
     });
-    return res.status(200).json({ object: createdObject });
+    return res.status(200).json({ objective: createdObjective });
   } catch (error) {
     logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
@@ -56,10 +56,10 @@ export const getObjective = async (
   const { id } = req.params;
 
   try {
-    const object = await retrieveObjectiveUseCase.execute({
+    const objective = await retrieveObjectiveUseCase.execute({
       _id: id,
     });
-    return res.status(200).json({ object });
+    return res.status(200).json({ objective });
   } catch (error) {
     logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
