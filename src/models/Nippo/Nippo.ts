@@ -23,5 +23,6 @@ const schema = new Schema<Nippo>(
   },
   { timestamps: true },
 );
+schema.index({ date: 1, objectiveId: 1 }, { unique: true });
 
 export const NippoModel = model<Nippo>("Nippo", schema);

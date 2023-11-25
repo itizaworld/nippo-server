@@ -1,9 +1,10 @@
 import * as express from "express";
 import { User } from "~/models/User";
-import { CreateNippoUseCase } from "~/useCases/Nippo/CreateNippoUseCase";
+import { UpsertNippoUseCase } from "~/useCases/Nippo/UpsertNippoUseCase";
 import { Types } from "mongoose";
+import { logger } from "~/utils/logger";
 
-const createNippoUseCase = new CreateNippoUseCase();
+const upsertNippoUseCase = new UpsertNippoUseCase();
 
 export const postNippo = async (
   req: express.Request<
@@ -22,7 +23,7 @@ export const postNippo = async (
   }
 
   try {
-    const createdObject = await createNippoUseCase.execute({
+    const createdObject = await upsertNippoUseCase.execute({
       currentUser: user,
       body,
       date,
@@ -30,6 +31,7 @@ export const postNippo = async (
     });
     return res.status(200).json({ object: createdObject });
   } catch (error) {
+    logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
   }
 };

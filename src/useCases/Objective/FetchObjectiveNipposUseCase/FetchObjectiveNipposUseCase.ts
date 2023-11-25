@@ -11,6 +11,7 @@ export class FetchObjectiveNipposUseCase {
     limit: number;
   }): Promise<Nippo[]> {
     return await NippoModel.find({ objectiveId })
+      .sort({ date: 1 })
       .skip((page - 1) * limit)
       .limit(limit);
   }

@@ -10,7 +10,7 @@ const pinoLogger = pino({
 
 export const logger = (
   message: Record<string, any> | string,
-  status?: ErrorStatus
+  status?: ErrorStatus,
 ) => {
   switch (status) {
     case "debug": {

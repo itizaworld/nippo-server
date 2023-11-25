@@ -4,6 +4,7 @@ import { CreateObjectiveUseCase } from "~/useCases/Objective/CreateObjectiveUseC
 import { RetrieveObjectiveUseCase } from "~/useCases/Objective/RetrieveObjectiveUseCase";
 import { FetchUserObjectivesUseCase } from "~/useCases/Objective/FetchUserObjectivesUseCase";
 import { FetchObjectiveNipposUseCase } from "~/useCases/Objective/FetchObjectiveNipposUseCase";
+import { logger } from "~/utils/logger";
 
 const createObjectiveUseCase = new CreateObjectiveUseCase();
 const fetchUserObjectivesUseCase = new FetchUserObjectivesUseCase();
@@ -24,6 +25,7 @@ export const postObjective = async (
     });
     return res.status(200).json({ object: createdObject });
   } catch (error) {
+    logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
   }
 };
@@ -40,6 +42,7 @@ export const getObjectiveMe = async (
     });
     return res.status(200).json({ objective });
   } catch (error) {
+    logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
   }
 };
@@ -58,6 +61,7 @@ export const getObjective = async (
     });
     return res.status(200).json({ object });
   } catch (error) {
+    logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
   }
 };
@@ -83,6 +87,7 @@ export const getObjectiveNippos = async (
     });
     return res.status(200).json({ nippos });
   } catch (error) {
+    logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
   }
 };
