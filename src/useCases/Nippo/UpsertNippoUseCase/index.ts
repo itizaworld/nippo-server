@@ -1,0 +1,1 @@
+export { UpsertNippoUseCase } from "./UpsertNippoUseCase";

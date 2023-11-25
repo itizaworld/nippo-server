@@ -47,6 +47,7 @@
       "nestjs",
       "NEXTAUTH",
       "nippo",
+      "nippos",
       "noopener",
       "noreferrer",
       "ogps",
@@ -61,7 +62,7 @@
       "stylelint",
       "Subnav",
       "toastr",
-      "unstyled",
+      "unstyled"
     ]
   }
   
