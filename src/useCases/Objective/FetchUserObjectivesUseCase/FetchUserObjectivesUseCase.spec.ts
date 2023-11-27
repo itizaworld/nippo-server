@@ -16,6 +16,7 @@ describe("FetchUserObjectivesUseCase", () => {
     await ObjectiveModel.create({
       name: "test",
       description: "test",
+      slug: "slug",
       createdUserId: user._id,
       status: "INPROGRESS",
     });
@@ -34,6 +35,7 @@ describe("FetchUserObjectivesUseCase", () => {
       expect.objectContaining({
         name: "test",
         description: "test",
+        slug: "slug",
         createdUserId: user._id,
         status: "INPROGRESS",
       }),
