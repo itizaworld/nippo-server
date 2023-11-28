@@ -1,0 +1,1 @@
+export { RetrieveNippoByDateUseCase } from "./RetrieveNippoByDateUseCase";
