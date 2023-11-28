@@ -5,10 +5,12 @@ import { RetrieveObjectiveUseCase } from "~/useCases/Objective/RetrieveObjective
 import { FetchUserObjectivesUseCase } from "~/useCases/Objective/FetchUserObjectivesUseCase";
 import { FetchObjectiveNipposUseCase } from "~/useCases/Objective/FetchObjectiveNipposUseCase";
 import { logger } from "~/utils/logger";
+import { RetrieveObjectiveBySlugUseCase } from "~/useCases/Objective/RetrieveObjectiveBySlugUseCase";
 
 const createObjectiveUseCase = new CreateObjectiveUseCase();
 const fetchUserObjectivesUseCase = new FetchUserObjectivesUseCase();
 const retrieveObjectiveUseCase = new RetrieveObjectiveUseCase();
+const retrieveObjectiveBySlugUseCase = new RetrieveObjectiveBySlugUseCase();
 const fetchObjectiveNipposUseCase = new FetchObjectiveNipposUseCase();
 
 export const postObjective = async (
@@ -58,6 +60,25 @@ export const getObjective = async (
   try {
     const objective = await retrieveObjectiveUseCase.execute({
       _id: id,
+    });
+    return res.status(200).json({ objective });
+  } catch (error) {
+    logger(error.message, "error");
+    return res.status(503).send({ message: "予期せぬエラーが発生しました" });
+  }
+};
+
+export const getObjectiveBySlug = async (
+  req: express.Request<{ slug: string }> & {
+    user: User;
+  },
+  res: express.Response,
+) => {
+  const { slug } = req.params;
+
+  try {
+    const objective = await retrieveObjectiveBySlugUseCase.execute({
+      slug,
     });
     return res.status(200).json({ objective });
   } catch (error) {
