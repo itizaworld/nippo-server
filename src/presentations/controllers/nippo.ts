@@ -45,7 +45,7 @@ export const getNippoByDate = async (
   res: express.Response,
 ) => {
   const { date } = req.query;
-  if (!date || typeof date === "string") {
+  if (!date || typeof date !== "string") {
     return res.status(400).send({ message: "dateの値が不正です" });
   }
 
