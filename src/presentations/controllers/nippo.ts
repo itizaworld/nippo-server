@@ -3,7 +3,7 @@ import { User } from "~/models/User";
 import { UpsertNippoUseCase } from "~/useCases/Nippo/UpsertNippoUseCase";
 import { Types } from "mongoose";
 import { logger } from "~/utils/logger";
-import { RetrieveNippoByDateUseCase } from "~/useCases/Nippo/RetrieveNippoByDateUseCase/RetrieveNippoByDateUseCase";
+import { RetrieveNippoByDateUseCase } from "~/useCases/Nippo/RetrieveNippoByDateUseCase";
 
 const upsertNippoUseCase = new UpsertNippoUseCase();
 const retrieveNippoByDateUseCase = new RetrieveNippoByDateUseCase();
@@ -43,25 +43,25 @@ export const getNippoByDate = async (
     object,
     object,
     object,
-    { date: string; objectiveId: string }
+    { date: string; slug: string }
   > & {
     user: User;
   },
   res: express.Response,
 ) => {
-  const { date, objectiveId } = req.query;
+  const { date, slug } = req.query;
   if (!date || typeof date !== "string") {
     return res.status(400).send({ message: "dateの値が不正です" });
   }
 
-  if (!objectiveId || typeof objectiveId !== "string") {
-    return res.status(400).send({ message: "objectiveIdの値が不正です" });
+  if (!slug || typeof slug !== "string") {
+    return res.status(400).send({ message: "slugの値が不正です" });
   }
 
   try {
     const nippo = await retrieveNippoByDateUseCase.execute({
       date,
-      objectiveId,
+      slug,
     });
     return res.status(200).json({ nippo });
   } catch (error) {
