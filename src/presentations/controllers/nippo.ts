@@ -39,19 +39,29 @@ export const postNippo = async (
 };
 
 export const getNippoByDate = async (
-  req: express.Request<object, object, object, { date: string }> & {
+  req: express.Request<
+    object,
+    object,
+    object,
+    { date: string; objectiveId: string }
+  > & {
     user: User;
   },
   res: express.Response,
 ) => {
-  const { date } = req.query;
+  const { date, objectiveId } = req.query;
   if (!date || typeof date !== "string") {
     return res.status(400).send({ message: "dateの値が不正です" });
+  }
+
+  if (!objectiveId || typeof objectiveId !== "string") {
+    return res.status(400).send({ message: "objectiveIdの値が不正です" });
   }
 
   try {
     const nippo = await retrieveNippoByDateUseCase.execute({
       date,
+      objectiveId,
     });
     return res.status(200).json({ nippo });
   } catch (error) {
