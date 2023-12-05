@@ -1,1 +1,1 @@
-export { CreateTaskUseCase } from "./CreateTaskUseCase";
+export { TaskUseCase } from "./TaskUseCase";

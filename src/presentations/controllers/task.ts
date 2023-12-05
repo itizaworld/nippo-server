@@ -2,7 +2,7 @@ import * as express from "express";
 import { User } from "~/models/User";
 import { Types } from "mongoose";
 import { logger } from "~/utils/logger";
-import { TaskUseCase } from "~/useCases/TaskUseCase/TaskUseCase";
+import { TaskUseCase } from "~/useCases/TaskUseCase";
 
 const taskUseCase = new TaskUseCase();
 
