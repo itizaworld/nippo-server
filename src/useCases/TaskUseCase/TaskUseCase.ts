@@ -20,4 +20,28 @@ export class TaskUseCase {
       dueDate,
     });
   }
+
+  async update({
+    updates,
+    taskId,
+    currentUser,
+  }: {
+    updates: {
+      title: string;
+      body: string;
+      dueDate: Date;
+    };
+    taskId: string;
+    currentUser: User;
+  }): Promise<void> {
+    await TaskModel.updateOne(
+      {
+        _id: taskId,
+        createdUserId: currentUser._id,
+      },
+      {
+        updates,
+      },
+    );
+  }
 }
