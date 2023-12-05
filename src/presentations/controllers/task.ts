@@ -8,15 +8,14 @@ const taskUseCase = new TaskUseCase();
 
 export const postTask = async (
   req: express.Request<
-    { id: string },
     object,
-    { title: string; body: string; dueDate: Date }
+    object,
+    { title: string; body: string; dueDate: Date; objectiveId: string }
   > & { user: User },
   res: express.Response,
 ) => {
   const { user } = req;
-  const { id: objectiveId } = req.params;
-  const { title, body, dueDate } = req.body;
+  const { title, body, dueDate, objectiveId } = req.body;
 
   if (!title || !body || !dueDate || !objectiveId) {
     return res.status(400).send({ message: "値が不正です" });
