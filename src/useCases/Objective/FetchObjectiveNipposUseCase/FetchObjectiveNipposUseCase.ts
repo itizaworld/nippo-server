@@ -1,4 +1,5 @@
 import { Nippo, NippoModel } from "~/models/Nippo";
+import { PaginationResult } from "~/models/PaginationResult";
 
 export class FetchObjectiveNipposUseCase {
   async execute({
@@ -9,10 +10,15 @@ export class FetchObjectiveNipposUseCase {
     objectiveId: string;
     page: number;
     limit: number;
-  }): Promise<Nippo[]> {
-    return await NippoModel.find({ objectiveId })
-      .sort({ date: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+  }): Promise<PaginationResult<Nippo>> {
+    const result = await NippoModel.paginate(
+      { objectiveId },
+      { sort: { date: -1 }, page, limit },
+    );
+
+    return new PaginationResult<Nippo>({
+      ...result,
+      docs: result.docs.map((doc) => doc.toObject()),
+    });
   }
 }
