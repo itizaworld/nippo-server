@@ -1,4 +1,6 @@
-import { Schema, Types, model } from "mongoose";
+import { PaginateModel, Schema, Types, model } from "mongoose";
+import mongoose from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 export interface Nippo {
   _id: string;
@@ -24,5 +26,11 @@ const schema = new Schema<Nippo>(
   { timestamps: true },
 );
 schema.index({ date: 1, objectiveId: 1 }, { unique: true });
+schema.plugin(paginate);
 
-export const NippoModel = model<Nippo>("Nippo", schema);
+interface Document extends mongoose.Document {}
+
+export const NippoModel = model<Document, PaginateModel<Document>>(
+  "Nippo",
+  schema,
+);
