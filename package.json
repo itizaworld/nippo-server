@@ -45,6 +45,7 @@
     "express-rate-limit": "^7.0.1",
     "express-session": "^1.17.3",
     "mongoose": "^8.0.0",
+    "mongoose-paginate-v2": "^1.7.4",
     "node-readability": "^3.0.0",
     "passport": "^0.7.0",
     "passport-google-oauth": "2.0.0",
