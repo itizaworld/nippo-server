@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { Nippo, NippoModel } from "~/models/Nippo";
 import { PaginationResult } from "~/models/PaginationResult";
 
@@ -12,7 +13,7 @@ export class FetchObjectiveNipposUseCase {
     limit: number;
   }): Promise<PaginationResult<Nippo>> {
     const result = await NippoModel.paginate(
-      { objectiveId },
+      { objectiveId, date: { $lte: format(new Date(), "yyyy-MM-dd") } },
       { sort: { date: -1 }, page, limit },
     );
 
