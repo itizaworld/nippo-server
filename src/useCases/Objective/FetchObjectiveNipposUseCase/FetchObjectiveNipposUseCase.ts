@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { Nippo, NippoModel } from "~/models/Nippo";
 import { PaginationResult } from "~/models/PaginationResult";
+import { getCurrentDate } from "~/utils/getCurrentDate";
 
 export class FetchObjectiveNipposUseCase {
   async execute({
@@ -13,7 +14,7 @@ export class FetchObjectiveNipposUseCase {
     limit: number;
   }): Promise<PaginationResult<Nippo>> {
     const result = await NippoModel.paginate(
-      { objectiveId, date: { $lte: format(new Date(), "yyyy-MM-dd") } },
+      { objectiveId, date: { $lte: format(getCurrentDate(), "yyyy-MM-dd") } },
       { sort: { date: -1 }, page, limit },
     );
 
