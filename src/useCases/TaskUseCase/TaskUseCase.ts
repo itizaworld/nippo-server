@@ -1,8 +1,8 @@
 import { Task, TaskModel } from "~/models/Task";
 import { User } from "~/models/User";
 
-export class CreateTaskUseCase {
-  async execute({
+export class TaskUseCase {
+  async create({
     currentUser,
     title,
     body,
