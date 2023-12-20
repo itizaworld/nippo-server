@@ -26,7 +26,6 @@ export class TaskUseCase {
     currentUser: User;
   }): Promise<Task> {
     return await TaskModel.create({
-      _id: objectiveId,
       title,
       body,
       objectiveId,
