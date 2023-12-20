@@ -1,3 +1,4 @@
+import { PaginationResult } from "~/models/PaginationResult";
 import { Task, TaskModel } from "~/models/Task";
 import { User } from "~/models/User";
 
@@ -10,11 +11,16 @@ export class TaskUseCase {
     objectiveId: string;
     page: number;
     limit: number;
-  }): Promise<Task[]> {
-    return await TaskModel.find({ objectiveId })
-      .sort({ date: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+  }): Promise<PaginationResult<Task>> {
+    const result = await TaskModel.paginate(
+      { objectiveId },
+      { sort: { dueDate: -1 }, page, limit },
+    );
+
+    return new PaginationResult<Task>({
+      ...result,
+      docs: result.docs.map((doc) => doc.toObject()),
+    });
   }
   async create({
     currentUser,
@@ -25,12 +31,14 @@ export class TaskUseCase {
   }: Pick<Task, "title" | "body" | "objectiveId" | "dueDate"> & {
     currentUser: User;
   }): Promise<Task> {
-    return await TaskModel.create({
+    const task = await TaskModel.create({
       title,
       body,
       objectiveId,
       createdUserId: currentUser._id,
       dueDate,
     });
+
+    return task;
   }
 }

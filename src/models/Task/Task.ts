@@ -1,4 +1,5 @@
-import { Schema, model, Types } from "mongoose";
+import mongoose, { Schema, model, Types, PaginateModel } from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 export interface Task {
   _id: string;
@@ -25,5 +26,12 @@ const schema = new Schema<Task>(
   },
   { timestamps: true },
 );
+schema.index({ objectiveId: 1 });
+schema.plugin(paginate);
 
-export const TaskModel = model<Task>("Task", schema);
+interface Document extends mongoose.Document {}
+
+export const TaskModel = model<Document, PaginateModel<Document>>(
+  "Task",
+  schema,
+);

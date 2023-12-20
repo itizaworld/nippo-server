@@ -130,12 +130,12 @@ export const getObjectiveTasks = async (
   const { id } = req.params;
 
   try {
-    const nippos = await taskUseCase.list({
+    const result = await taskUseCase.list({
       objectiveId: id,
       page: Number(req.query.page || 1),
       limit: Number(req.query.limit || 10),
     });
-    return res.status(200).json({ nippos });
+    return res.status(200).json({ result });
   } catch (error) {
     logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
