@@ -6,12 +6,14 @@ import { FetchUserObjectivesUseCase } from "~/useCases/Objective/FetchUserObject
 import { FetchObjectiveNipposUseCase } from "~/useCases/Objective/FetchObjectiveNipposUseCase";
 import { logger } from "~/utils/logger";
 import { RetrieveObjectiveBySlugUseCase } from "~/useCases/Objective/RetrieveObjectiveBySlugUseCase";
+import { TaskUseCase } from "~/useCases/TaskUseCase";
 
 const createObjectiveUseCase = new CreateObjectiveUseCase();
 const fetchUserObjectivesUseCase = new FetchUserObjectivesUseCase();
 const retrieveObjectiveUseCase = new RetrieveObjectiveUseCase();
 const retrieveObjectiveBySlugUseCase = new RetrieveObjectiveBySlugUseCase();
 const fetchObjectiveNipposUseCase = new FetchObjectiveNipposUseCase();
+const taskUseCase = new TaskUseCase();
 
 export const postObjective = async (
   req: express.Request & { user: User },
@@ -108,6 +110,32 @@ export const getObjectiveNippos = async (
     });
 
     return res.status(200).json({ result });
+  } catch (error) {
+    logger(error.message, "error");
+    return res.status(503).send({ message: "予期せぬエラーが発生しました" });
+  }
+};
+
+export const getObjectiveTasks = async (
+  req: express.Request<
+    { id: string },
+    object,
+    object,
+    { page?: number; limit?: number }
+  > & {
+    user: User;
+  },
+  res: express.Response,
+) => {
+  const { id } = req.params;
+
+  try {
+    const nippos = await taskUseCase.list({
+      objectiveId: id,
+      page: Number(req.query.page || 1),
+      limit: Number(req.query.limit || 10),
+    });
+    return res.status(200).json({ nippos });
   } catch (error) {
     logger(error.message, "error");
     return res.status(503).send({ message: "予期せぬエラーが発生しました" });
