@@ -12,7 +12,6 @@ model nippos {
   v             Int        @map("__v")
   body          String
   createdAt     DateTime   @db.Date
-  createdUser   users      @relation(fields: [createdUserId], references: [id])
   createdUserId String     @map("createdUser") @db.ObjectId
   date          String
   objective     objectives @relation(fields: [objectiveId], references: [id])
@@ -26,7 +25,6 @@ model objectives {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   v             Int      @map("__v")
   createdAt     DateTime @db.Date
-  createdUser   users    @relation(fields: [createdUserId], references: [id])
   createdUserId String   @map("createdUser") @db.ObjectId
   description   String
   name          String
