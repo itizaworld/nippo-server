@@ -31,14 +31,13 @@ export class TaskUseCase {
   }: Pick<Task, "title" | "body" | "objectiveId" | "dueDate"> & {
     currentUser: User;
   }): Promise<Task> {
-    const task = await TaskModel.create({
+    return await TaskModel.create({
+      _id: objectiveId,
       title,
       body,
       objectiveId,
       createdUserId: currentUser._id,
       dueDate,
     });
-
-    return task;
   }
 }
