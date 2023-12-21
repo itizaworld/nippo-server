@@ -11,7 +11,7 @@ import {
 } from "./objective";
 import { loginRequired } from "~/middlewares/loginRequired";
 import { getNippoByDate, postNippo } from "./nippo";
-import { postTask } from "./task";
+import { patchTask, postTask } from "./task";
 
 export const setupExpressRoutes = (express: express.Express): void => {
   express.get("/api/me", getCurrentUser);
@@ -27,4 +27,5 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get("/api/nippos/by-date", getNippoByDate);
 
   express.post("/api/tasks", loginRequired, postTask);
+  express.patch("/api/tasks/:id", loginRequired, patchTask);
 };
