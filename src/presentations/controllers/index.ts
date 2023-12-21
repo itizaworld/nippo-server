@@ -10,6 +10,7 @@ import {
 } from "./objective";
 import { loginRequired } from "~/middlewares/loginRequired";
 import { getNippoByDate, postNippo } from "./nippo";
+import { postTask } from "./task";
 
 export const setupExpressRoutes = (express: express.Express): void => {
   express.get("/api/me", getCurrentUser);
@@ -22,4 +23,6 @@ export const setupExpressRoutes = (express: express.Express): void => {
   express.get("/api/objectives/:id/nippos", getObjectiveNippos);
   express.post("/api/objectives/:id/nippos", loginRequired, postNippo);
   express.get("/api/nippos/by-date", getNippoByDate);
+
+  express.post("/api/tasks", loginRequired, postTask);
 };
