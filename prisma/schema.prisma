@@ -8,16 +8,16 @@ datasource db {
 }
 
 model nippos {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  v             Int      @map("__v")
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  v             Int        @map("__v")
   body          String
-  createdAt     DateTime @db.Date
-  createdUser     users  @relation(fields: [createdUserId], references: [id])
-  createdUserId   String @map("createdUser") @db.ObjectId
+  createdAt     DateTime   @db.Date
+  createdUser   users      @relation(fields: [createdUserId], references: [id])
+  createdUserId String     @map("createdUser") @db.ObjectId
   date          String
-  objective     objectives  @relation(fields: [objectiveId], references: [id])
-  objectiveId   String @map("objective") @db.ObjectId
-  updatedAt     DateTime @db.Date
+  objective     objectives @relation(fields: [objectiveId], references: [id])
+  objectiveId   String     @map("objective") @db.ObjectId
+  updatedAt     DateTime   @db.Date
 
   @@unique([date, objectiveId], map: "date_1_objectiveId_1")
 }
@@ -26,14 +26,15 @@ model objectives {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   v             Int      @map("__v")
   createdAt     DateTime @db.Date
-  createdUser     users  @relation(fields: [createdUserId], references: [id])
-  createdUserId   String @map("createdUser") @db.ObjectId
+  createdUser   users    @relation(fields: [createdUserId], references: [id])
+  createdUserId String   @map("createdUser") @db.ObjectId
   description   String
   name          String
   slug          String   @unique(map: "slug_1")
   status        String
   updatedAt     DateTime @db.Date
-  tasks tasks[]
+  tasks         tasks[]
+  nippos        nippos[]
 }
 
 model sessions {
@@ -45,28 +46,28 @@ model sessions {
 }
 
 model tasks {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  v             Int      @map("__v")
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  v             Int        @map("__v")
   body          String
-  createdAt     DateTime @db.Date
-  createdUser     users  @relation(fields: [createdUserId], references: [id])
-  createdUserId   String @map("createdUser") @db.ObjectId
-  dueDate       DateTime @unique(map: "dueDate_1") @db.Date
-  objective     objectives  @relation(fields: [objectiveId], references: [id])
-  objectiveId   String @map("objective") @db.ObjectId
+  createdAt     DateTime   @db.Date
+  createdUser   users      @relation(fields: [createdUserId], references: [id])
+  createdUserId String     @map("createdUser") @db.ObjectId
+  dueDate       DateTime   @unique(map: "dueDate_1") @db.Date
+  objective     objectives @relation(fields: [objectiveId], references: [id])
+  objectiveId   String     @map("objective") @db.ObjectId
   title         String
-  updatedAt     DateTime @db.Date
+  updatedAt     DateTime   @db.Date
 }
 
 model users {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  v          Int      @map("__v")
-  createdAt  DateTime @db.Date
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  v          Int          @map("__v")
+  createdAt  DateTime     @db.Date
   email      String
   profileUrl String
-  updatedAt  DateTime @db.Date
+  updatedAt  DateTime     @db.Date
   username   String
   objectives objectives[]
-  tasks tasks[]
-  nippos nippos[]
+  tasks      tasks[]
+  nippos     nippos[]
 }
